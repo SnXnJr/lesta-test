@@ -2,10 +2,11 @@ import * as THREE from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { gsap } from "gsap";
+import {getData} from './API'
 
-import turret from './assets/images/textures/turret.png';
-import armor from './assets/images/textures/armor.png';
-import tracks from './assets/images/textures/tracks.png';
+import turret from '../images/textures/turret.png';
+import armor from '../images/textures/armor.png';
+import tracks from '../images/textures/tracks.png';
 
 let scene, renderer, camera, model, controls;
 let raycaster, mouse, turretPlane, armorPlane, tracksPlane;
@@ -17,7 +18,7 @@ let focus = false;
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 
-const tankURL = new URL('assets/model/tank.glb', import.meta.url)
+const tankURL = new URL('../model/tank.glb', import.meta.url)
 
 init();
 
@@ -62,8 +63,8 @@ function init(){
 		renderer.outputEncoding = THREE.sRGBEncoding;
         app.appendChild(renderer.domElement)
 
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 100 );
-        camera.position.set( 5, 2, 8 );
+    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 20 );
+        camera.position.set( 0, 1, 8 );
 
     const textureLoader = new THREE.TextureLoader();
 
@@ -101,8 +102,8 @@ function init(){
         controls.enableZoom = false;
         controls.enableRotate = false;
         controls.enablePan = false;
-        controls.target.set( 0, 0, 0 );
-        controls.maxDistance = 10;
+        controls.target.set( 0.5, 0, 0 );
+        controls.maxDistance = 8;
         controls.update();
 
     window.addEventListener( 'resize', onWindowResize );
@@ -126,26 +127,31 @@ function onClick(e) {
 
   if (intersects.length > 0) {
     switch (intersects[0]?.object?.name) {
-        case 'turret':            
+        case 'turret':    
+            getData('turret');        
             cameraMove(0.009016628934921101, 1.9947699849610008, 4.449655364921369, 1, 'power3.inOut' , true)
             break;
         case 'armor':
+            getData('armor');
             cameraMove(-1.4352435511428288, 0.3870118192955556, 4.6442350564652415, 1, 'power3.inOut', true)
             break;
         case 'tracks':
+            getData('tracks');
             cameraMove(2.6090124846041998, -0.19104929753311628, 3.823187137442257, 1, 'power3.inOut', true)
             break;
         default:
+            getData('total');
             cameraMove();
             break;
     }
   } else {
+    getData('total');
     cameraMove();
   }
 
 }
 
-function cameraMove(x = 5, y = 2, z = 8, duration = 1, ease = 'power3.inOut', val = false){
+function cameraMove(x = 0, y = 1, z = 8, duration = 1, ease = 'power3.inOut', val = false){
     if (val) focus = val
     gsap.to(camera.position,
         {
@@ -188,11 +194,10 @@ function animate() {
     turretPlane.lookAt(camera.position)
     armorPlane.lookAt(camera.position)
     tracksPlane.lookAt(camera.position)
-
     
     if (!focus) {
-        camera.position.x += ( mouseX - camera.position.x ) * 0.00005;
-        camera.position.y += ( - mouseY - camera.position.y ) * 0.00005;
+        camera.position.x += ( mouseX - camera.position.x ) * 0.0005;
+        camera.position.y += ( - mouseY - camera.position.y ) * 0.0005;
         camera.position.z = 8;
         camera.lookAt( scene.position );
     }
