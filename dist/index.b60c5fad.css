@@ -40,6 +40,12 @@ p {
   line-height: 19px;
 }
 
+@media (width <= 1600px) {
+  p {
+    font-size: .875vw;
+  }
+}
+
 #app {
   position: relative;
 }
@@ -171,6 +177,7 @@ header .inner a {
 .content .inner table tbody tr td {
   color: #d7d2b8;
   padding: .26vw 0;
+  font-size: .833vw;
 }
 
 .steps {

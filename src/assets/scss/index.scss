@@ -43,6 +43,9 @@ p{
     font-weight: 400;
     line-height: 19px;
     margin: 0;
+    @media (max-width: 1600px) {
+        font-size: 0.875vw;
+    }
 }
 
 #app{
@@ -163,6 +166,7 @@ header{
                     td{
                         padding: 0.260vw 0;
                         color: $text;
+                        font-size: 0.833vw;
                     }
                 }
             }
