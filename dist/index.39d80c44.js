@@ -578,7 +578,7 @@ let focus = false;
 let mouseX = 0, mouseY = 0;
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
-const tankURL = new URL(require("388cf740914bf7bb"));
+const tankURL = new URL(require("d1395e96b8b59ea7"));
 init();
 function init() {
     const app = document.getElementById("app");
@@ -723,7 +723,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-},{"three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","three/examples/jsm/loaders/GLTFLoader":"dVRsF","gsap":"fPSuC","./API":"cDoCc","../images/textures/turret.png":"5Di8i","../images/textures/armor.png":"bgawP","../images/textures/tracks.png":"4hw79","388cf740914bf7bb":"aNklU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../images/textures/bg.png":"lkzyv"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","three/examples/jsm/loaders/GLTFLoader":"dVRsF","gsap":"fPSuC","./API":"cDoCc","../images/textures/turret.png":"5Di8i","../images/textures/armor.png":"bgawP","../images/textures/tracks.png":"4hw79","../images/textures/bg.png":"lkzyv","d1395e96b8b59ea7":"aNklU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -38135,9 +38135,9 @@ async function getData(type) {
 module.exports = JSON.parse('{"tracks":{"images":[["./tracks.png","Т-34-85-60"]],"values":[["Масса/Предельная масса","32,37 / 35,30 т"],["Мощность двигателя","500 л.с."],["Удельная мощность","15,45 л.с./т"],["Максимальная скорость","54 км/ч"],["Скорость поворота","38 град/с"],["Скорость поворота башни","46 град/с"]]},"armor":{"values":[["Прочность","770 ед."],["Бронирование корпуса","45 / 45 / 40 мм"],["Бронирование башни","90 / 75 / 52 мм"],["Время ремонта ходовой","12,03 с"]]},"turret":{"images":[["./gun.png","85 мм Д-5Т-85БМ"],["./turret.png","Т-34-85 расширенная"]],"values":[["Урон","115 / 110 / 165 ед"],["Бронепробиваемость","125 / 156 / 39 мм"],["Скорострельность","14,63 выстр/мин"],["Урон в минуту","1 682 ед/мин"],["Время сведения","2,90 с"],["Разброс на 100 м","0,41 м"],["Боезапас","80 шт"]]},"total":{"name":"Название танка","values":[["Прочность","1700 ед."],["Средний урон","330/330/430 ед."],["Средняя бронепробиваемость","215/253/53 мм"],["Время сведения","3,1 c"],["Разброс на 100 м","0,42 м"],["Время перезарядки","9,3 c"],["Углы вертикального наведения","-10/20 град"],["Мощность двигателя","-10/20 град"],["Макс. скорость / задний ход","25/10 км/ч"],["Бронирование корпуса","200/105/150 мм"],["Бронирование башни","200/200/200 мм"]]}}');
 
 },{}],"5Di8i":[function(require,module,exports) {
-module.exports = require("5217d9ae3a5e9c02").getBundleURL("bRrli") + "turret.aaa54f6d.png" + "?" + Date.now();
+module.exports = require("7308fec107a41210").getBundleURL("bRrli") + "turret.aaa54f6d.png" + "?" + Date.now();
 
-},{"5217d9ae3a5e9c02":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+},{"7308fec107a41210":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
 var bundleURL = {};
 function getBundleURLCached(id) {
@@ -38172,17 +38172,17 @@ exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
 },{}],"bgawP":[function(require,module,exports) {
-module.exports = require("7d294bce7589fb38").getBundleURL("bRrli") + "armor.16d30803.png" + "?" + Date.now();
+module.exports = require("9218cd1df44d7ea7").getBundleURL("bRrli") + "armor.16d30803.png" + "?" + Date.now();
 
-},{"7d294bce7589fb38":"lgJ39"}],"4hw79":[function(require,module,exports) {
-module.exports = require("444f4b299d719da5").getBundleURL("bRrli") + "tracks.edfc1426.png" + "?" + Date.now();
+},{"9218cd1df44d7ea7":"lgJ39"}],"4hw79":[function(require,module,exports) {
+module.exports = require("3f24d0f452b66eba").getBundleURL("bRrli") + "tracks.edfc1426.png" + "?" + Date.now();
 
-},{"444f4b299d719da5":"lgJ39"}],"aNklU":[function(require,module,exports) {
-module.exports = require("2373125bb01eca35").getBundleURL("bRrli") + "tank.0618a27f.glb" + "?" + Date.now();
+},{"3f24d0f452b66eba":"lgJ39"}],"lkzyv":[function(require,module,exports) {
+module.exports = require("43d515bbdad215fc").getBundleURL("bRrli") + "bg.2d4ba607.png" + "?" + Date.now();
 
-},{"2373125bb01eca35":"lgJ39"}],"lkzyv":[function(require,module,exports) {
-module.exports = require("7d2cb789f414cfdb").getBundleURL("bRrli") + "bg.2d4ba607.png" + "?" + Date.now();
+},{"43d515bbdad215fc":"lgJ39"}],"aNklU":[function(require,module,exports) {
+module.exports = require("4fba93fd93fba6fd").getBundleURL("bRrli") + "tank.0618a27f.glb" + "?" + Date.now();
 
-},{"7d2cb789f414cfdb":"lgJ39"}]},["47q0b","2Qq7h"], "2Qq7h", "parcelRequire80b1")
+},{"4fba93fd93fba6fd":"lgJ39"}]},["47q0b","2Qq7h"], "2Qq7h", "parcelRequire80b1")
 
 //# sourceMappingURL=index.39d80c44.js.map
