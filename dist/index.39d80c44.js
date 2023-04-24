@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"6rNBs":[function(require,module,exports) {
+})({"47q0b":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -563,32 +563,34 @@ var _orbitControls = require("three/examples/jsm/controls/OrbitControls");
 var _gltfloader = require("three/examples/jsm/loaders/GLTFLoader");
 var _gsap = require("gsap");
 var _api = require("./API");
+// textures
 var _turretPng = require("../images/textures/turret.png");
 var _turretPngDefault = parcelHelpers.interopDefault(_turretPng);
 var _armorPng = require("../images/textures/armor.png");
 var _armorPngDefault = parcelHelpers.interopDefault(_armorPng);
 var _tracksPng = require("../images/textures/tracks.png");
 var _tracksPngDefault = parcelHelpers.interopDefault(_tracksPng);
+var _bgPng = require("../images/textures/bg.png");
+var _bgPngDefault = parcelHelpers.interopDefault(_bgPng);
 let scene, renderer, camera, model, controls;
 let raycaster, mouse, turretPlane, armorPlane, tracksPlane;
-let mouseX = 0, mouseY = 0;
 let focus = false;
+let mouseX = 0, mouseY = 0;
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
-const tankURL = new URL(require("d1395e96b8b59ea7"));
+const tankURL = new URL(require("388cf740914bf7bb"));
 init();
 function init() {
     const app = document.getElementById("app");
     scene = new _three.Scene();
-    scene.background = new _three.Color(0x4B4B4B);
-    scene.fog = new _three.Fog(0xa0a0a0, 10, 50);
+    scene.background = new _three.TextureLoader().load((0, _bgPngDefault.default));
     raycaster = new _three.Raycaster();
     mouse = new _three.Vector2();
     const hemiLight = new _three.HemisphereLight(0xffffff, 0x444444);
     hemiLight.position.set(0, 20, 0);
     scene.add(hemiLight);
     const dirLight = new _three.DirectionalLight(0xffffff);
-    dirLight.position.set(3, 10, 10);
+    dirLight.position.set(-3, 10, -10);
     dirLight.castShadow = true;
     dirLight.shadow.camera.top = 2;
     dirLight.shadow.camera.bottom = -2;
@@ -603,13 +605,6 @@ function init() {
         scene.add(model);
         animate();
     });
-    renderer = new _three.WebGLRenderer();
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputEncoding = _three.sRGBEncoding;
-    app.appendChild(renderer.domElement);
-    camera = new _three.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 20);
-    camera.position.set(0, 1, 8);
     const textureLoader = new _three.TextureLoader();
     const turretGeometry = new _three.PlaneGeometry(0.5, 0.5);
     const turretMaterial = new _three.MeshBasicMaterial({
@@ -638,12 +633,20 @@ function init() {
     tracksPlane.name = "tracks";
     tracksPlane.position.set(1.4, -0.3, 2);
     scene.add(tracksPlane);
+    renderer = new _three.WebGLRenderer();
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputEncoding = _three.sRGBEncoding;
+    app.appendChild(renderer.domElement);
+    camera = new _three.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 20);
+    camera.position.set(0, 1, 8);
     controls = new (0, _orbitControls.OrbitControls)(camera, renderer.domElement);
     controls.enableZoom = false;
     controls.enableRotate = false;
     controls.enablePan = false;
     controls.target.set(0.5, 0, 0);
     controls.maxDistance = 8;
+    controls.maxPolarAngle = _three.MathUtils.degToRad(90);
     controls.update();
     window.addEventListener("resize", onWindowResize);
     renderer.domElement.addEventListener("pointermove", onPointerMove);
@@ -669,11 +672,13 @@ function onClick(e) {
             cameraMove(2.6090124846041998, -0.19104929753311628, 3.823187137442257, 1, "power3.inOut", true);
             break;
         default:
-            (0, _api.getData)("total");
-            cameraMove();
+            if (focus) {
+                (0, _api.getData)("total");
+                cameraMove();
+            }
             break;
     }
-    else {
+    else if (focus) {
         (0, _api.getData)("total");
         cameraMove();
     }
@@ -709,8 +714,8 @@ function animate() {
     armorPlane.lookAt(camera.position);
     tracksPlane.lookAt(camera.position);
     if (!focus) {
-        camera.position.x += (mouseX - camera.position.x) * 0.0005;
-        camera.position.y += (-mouseY - camera.position.y) * 0.0005;
+        camera.position.x += (mouseX - camera.position.x) * 0.00005;
+        camera.position.y += (-mouseY - camera.position.y) * 0.00005;
         camera.position.z = 8;
         camera.lookAt(scene.position);
     }
@@ -718,7 +723,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-},{"three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","three/examples/jsm/loaders/GLTFLoader":"dVRsF","gsap":"fPSuC","../images/textures/turret.png":"c6pXJ","../images/textures/armor.png":"40i84","../images/textures/tracks.png":"hx4yo","d1395e96b8b59ea7":"iUT9T","@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW","./API":"cDoCc"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","three/examples/jsm/controls/OrbitControls":"7mqRv","three/examples/jsm/loaders/GLTFLoader":"dVRsF","gsap":"fPSuC","./API":"cDoCc","../images/textures/turret.png":"5Di8i","../images/textures/armor.png":"bgawP","../images/textures/tracks.png":"4hw79","388cf740914bf7bb":"aNklU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../images/textures/bg.png":"lkzyv"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -30445,7 +30450,7 @@ if (typeof window !== "undefined") {
     else window.__THREE__ = REVISION;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW"}],"8f7LW":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -31149,7 +31154,7 @@ class OrbitControls extends (0, _three.EventDispatcher) {
     }
 }
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW"}],"dVRsF":[function(require,module,exports) {
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dVRsF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "GLTFLoader", ()=>GLTFLoader);
@@ -33391,7 +33396,7 @@ const _identityMatrix = new (0, _three.Matrix4)();
     });
 }
 
-},{"three":"ktPTu","../utils/BufferGeometryUtils.js":"5o7x9","@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW"}],"5o7x9":[function(require,module,exports) {
+},{"three":"ktPTu","../utils/BufferGeometryUtils.js":"5o7x9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5o7x9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 /**
@@ -34105,7 +34110,7 @@ function mergeBufferAttributes(attributes) {
     return mergeAttributes(attributes);
 }
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW"}],"fPSuC":[function(require,module,exports) {
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fPSuC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "gsap", ()=>gsapWithCSS);
@@ -34138,7 +34143,7 @@ var _csspluginJs = require("./CSSPlugin.js");
 var gsapWithCSS = (0, _gsapCoreJs.gsap).registerPlugin((0, _csspluginJs.CSSPlugin)) || (0, _gsapCoreJs.gsap), // to protect from tree shaking
 TweenMaxWithCSS = gsapWithCSS.core.Tween;
 
-},{"./gsap-core.js":"05eeC","./CSSPlugin.js":"l02JQ","@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW"}],"05eeC":[function(require,module,exports) {
+},{"./gsap-core.js":"05eeC","./CSSPlugin.js":"l02JQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"05eeC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "GSCache", ()=>GSCache);
@@ -37141,7 +37146,7 @@ _coreReady = 1;
 _windowExists() && _wake();
 var Power0 = _easeMap.Power0, Power1 = _easeMap.Power1, Power2 = _easeMap.Power2, Power3 = _easeMap.Power3, Power4 = _easeMap.Power4, Linear = _easeMap.Linear, Quad = _easeMap.Quad, Cubic = _easeMap.Cubic, Quart = _easeMap.Quart, Quint = _easeMap.Quint, Strong = _easeMap.Strong, Elastic = _easeMap.Elastic, Back = _easeMap.Back, SteppedEase = _easeMap.SteppedEase, Bounce = _easeMap.Bounce, Sine = _easeMap.Sine, Expo = _easeMap.Expo, Circ = _easeMap.Circ;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW"}],"l02JQ":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l02JQ":[function(require,module,exports) {
 /*!
  * CSSPlugin 3.11.5
  * https://greensock.com
@@ -38089,10 +38094,50 @@ var CSSPlugin = {
 });
 (0, _gsapCoreJs.gsap).registerPlugin(CSSPlugin);
 
-},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW"}],"c6pXJ":[function(require,module,exports) {
-module.exports = require("6f2c7f93f5ec7749").getBundleURL("bRrli") + "turret.aaa54f6d.png" + "?" + Date.now();
+},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cDoCc":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getData", ()=>getData);
+var _dataJson = require("./data.json");
+var _dataJsonDefault = parcelHelpers.interopDefault(_dataJson);
+const post = (type)=>new Promise((resolve)=>{
+        setTimeout(()=>resolve((0, _dataJsonDefault.default)[type]), 1000);
+    });
+const template = (data)=>{
+    if (!data) return;
+    const name = data?.name ? "<h1>" + data.name + "</h1>" : "";
+    let images = '<div class="images">';
+    data.images && data?.images.forEach((i)=>images += '<div class="images__item"><img src="' + i[0] + '"><span>' + i[1] + "</span></div>");
+    images += "</div>";
+    let rows = "";
+    data.values && data?.values.forEach((i)=>rows += "<tr><td>" + i[0] + "</td><td>" + i[1] + "</td></tr>");
+    const content = `
+        ${name}
+        ${data.images && data?.images ? images : ""}
+        <table>
+            <tbody>
+                ${rows}
+            </tbody>
+        </table>
+    `;
+    return content;
+};
+async function getData(type) {
+    const wrapper = document.querySelector(".content-js .inner");
+    wrapper.classList.add("active");
+    const resp = await post(type);
+    const html = await template(resp);
+    wrapper.innerHTML = html;
+    wrapper.classList.remove("active");
+}
 
-},{"6f2c7f93f5ec7749":"dqALS"}],"dqALS":[function(require,module,exports) {
+},{"./data.json":"ewPk6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ewPk6":[function(require,module,exports) {
+module.exports = JSON.parse('{"tracks":{"images":[["./tracks.png","Т-34-85-60"]],"values":[["Масса/Предельная масса","32,37 / 35,30 т"],["Мощность двигателя","500 л.с."],["Удельная мощность","15,45 л.с./т"],["Максимальная скорость","54 км/ч"],["Скорость поворота","38 град/с"],["Скорость поворота башни","46 град/с"]]},"armor":{"values":[["Прочность","770 ед."],["Бронирование корпуса","45 / 45 / 40 мм"],["Бронирование башни","90 / 75 / 52 мм"],["Время ремонта ходовой","12,03 с"]]},"turret":{"images":[["./gun.png","85 мм Д-5Т-85БМ"],["./turret.png","Т-34-85 расширенная"]],"values":[["Урон","115 / 110 / 165 ед"],["Бронепробиваемость","125 / 156 / 39 мм"],["Скорострельность","14,63 выстр/мин"],["Урон в минуту","1 682 ед/мин"],["Время сведения","2,90 с"],["Разброс на 100 м","0,41 м"],["Боезапас","80 шт"]]},"total":{"name":"Название танка","values":[["Прочность","1700 ед."],["Средний урон","330/330/430 ед."],["Средняя бронепробиваемость","215/253/53 мм"],["Время сведения","3,1 c"],["Разброс на 100 м","0,42 м"],["Время перезарядки","9,3 c"],["Углы вертикального наведения","-10/20 град"],["Мощность двигателя","-10/20 град"],["Макс. скорость / задний ход","25/10 км/ч"],["Бронирование корпуса","200/105/150 мм"],["Бронирование башни","200/200/200 мм"]]}}');
+
+},{}],"5Di8i":[function(require,module,exports) {
+module.exports = require("5217d9ae3a5e9c02").getBundleURL("bRrli") + "turret.aaa54f6d.png" + "?" + Date.now();
+
+},{"5217d9ae3a5e9c02":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
 var bundleURL = {};
 function getBundleURLCached(id) {
@@ -38126,32 +38171,18 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"40i84":[function(require,module,exports) {
-module.exports = require("5eb293667add5b0b").getBundleURL("bRrli") + "armor.16d30803.png" + "?" + Date.now();
+},{}],"bgawP":[function(require,module,exports) {
+module.exports = require("7d294bce7589fb38").getBundleURL("bRrli") + "armor.16d30803.png" + "?" + Date.now();
 
-},{"5eb293667add5b0b":"dqALS"}],"hx4yo":[function(require,module,exports) {
-module.exports = require("fcceee093bd033a3").getBundleURL("bRrli") + "tracks.edfc1426.png" + "?" + Date.now();
+},{"7d294bce7589fb38":"lgJ39"}],"4hw79":[function(require,module,exports) {
+module.exports = require("444f4b299d719da5").getBundleURL("bRrli") + "tracks.edfc1426.png" + "?" + Date.now();
 
-},{"fcceee093bd033a3":"dqALS"}],"iUT9T":[function(require,module,exports) {
-module.exports = require("78d0d5991295f094").getBundleURL("bRrli") + "tank.0618a27f.glb" + "?" + Date.now();
+},{"444f4b299d719da5":"lgJ39"}],"aNklU":[function(require,module,exports) {
+module.exports = require("2373125bb01eca35").getBundleURL("bRrli") + "tank.0618a27f.glb" + "?" + Date.now();
 
-},{"78d0d5991295f094":"dqALS"}],"cDoCc":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getData", ()=>getData);
-var _dataJson = require("./data.json");
-var _dataJsonDefault = parcelHelpers.interopDefault(_dataJson);
-const post = (type)=>new Promise((resolve)=>{
-        setTimeout(()=>resolve((0, _dataJsonDefault.default)[type]), 1000);
-    });
-async function getData(type) {
-    const resp = await post(type);
-    console.log(resp);
-}
+},{"2373125bb01eca35":"lgJ39"}],"lkzyv":[function(require,module,exports) {
+module.exports = require("7d2cb789f414cfdb").getBundleURL("bRrli") + "bg.2d4ba607.png" + "?" + Date.now();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8f7LW","./data.json":"ewPk6"}],"ewPk6":[function(require,module,exports) {
-module.exports = JSON.parse('{"traks":{"name":"","images":["./assets/images/traks.png"],"values":[["Масса/Предельная масса","32,37 / 35,30 т"],["Мощность двигателя","500 л.с."],["Удельная мощность","15,45 л.с./т"],["Максимальная скорость","54 км/ч"],["Скорость поворота","38 град/с"],["Скорость поворота башни","46 град/с"]]},"armor":{"name":"","images":["./assets/images/turret.png"],"values":[["Прочность","770 ед."],["Бронирование корпуса","45 / 45 / 40 мм"],["Бронирование башни","90 / 75 / 52 мм"],["Время ремонта ходовой","12,03 с"]]},"turret":{"name":"","images":["./assets/images/gun.png","./assets/images/turret.png"],"value":[["Урон","115 / 110 / 165 ед"],["Бронепробиваемость","125 / 156 / 39 мм"],["Скорострельность","14,63 выстр/мин"],["Урон в минуту","1 682 ед/мин"],["Время сведения","2,90 с"],["Разброс на 100 м","0,41 м"],["Боезапас","80 шт"]]},"total":{"name":"Название танка","images":"[]","values":[["Прочность","1700 ед."],["Средний урон","330/330/430 ед."],["Средняя бронепробиваемость","215/253/53 мм"],["Время сведения","3,1 c"],["Разброс на 100 м","0,42 м"],["Время перезарядки","9,3 c"],["Углы вертикального наведения","-10/20 град"],["Мощность двигателя","-10/20 град"],["Макс. скорость / задний ход","25/10 км/ч"],["Бронирование корпуса","200/105/150 мм"],["Бронирование башни","200/200/200 мм"]]}}');
-
-},{}]},["6rNBs","2Qq7h"], "2Qq7h", "parcelRequire80b1")
+},{"7d2cb789f414cfdb":"lgJ39"}]},["47q0b","2Qq7h"], "2Qq7h", "parcelRequire80b1")
 
 //# sourceMappingURL=index.39d80c44.js.map

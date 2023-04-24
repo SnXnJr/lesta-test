@@ -4,17 +4,19 @@ import {GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { gsap } from "gsap";
 import {getData} from './API'
 
+
+// textures
 import turret from '../images/textures/turret.png';
 import armor from '../images/textures/armor.png';
 import tracks from '../images/textures/tracks.png';
+import bg from '../images/textures/bg.png';
 
 let scene, renderer, camera, model, controls;
 let raycaster, mouse, turretPlane, armorPlane, tracksPlane;
 
-let mouseX = 0, mouseY = 0;
-
 let focus = false;
 
+let mouseX = 0, mouseY = 0;
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 
@@ -27,8 +29,7 @@ function init(){
     const app = document.getElementById( 'app' );
 
     scene = new THREE.Scene();
-        scene.background = new THREE.Color( 0x4B4B4B );
-        scene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
+        scene.background = new THREE.TextureLoader().load( bg );
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2()
@@ -38,7 +39,7 @@ function init(){
         scene.add( hemiLight );
 
     const dirLight = new THREE.DirectionalLight( 0xffffff );
-        dirLight.position.set( 3, 10, 10 );
+        dirLight.position.set( - 3, 10, - 10 );
         dirLight.castShadow = true;
         dirLight.shadow.camera.top = 2;
         dirLight.shadow.camera.bottom = - 2;
@@ -47,6 +48,7 @@ function init(){
         dirLight.shadow.camera.near = 0.1;
         dirLight.shadow.camera.far = 40;
         scene.add( dirLight );
+
     
     const loader = new GLTFLoader();
         loader.load( tankURL.href, function ( gltf ) {
@@ -54,18 +56,8 @@ function init(){
             scene.add( model );
 
             animate();
-        });    
+        });
         
-
-    renderer = new THREE.WebGLRenderer();
-        renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setSize( window.innerWidth, window.innerHeight );
-		renderer.outputEncoding = THREE.sRGBEncoding;
-        app.appendChild(renderer.domElement)
-
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 20 );
-        camera.position.set( 0, 1, 8 );
-
     const textureLoader = new THREE.TextureLoader();
 
     const turretGeometry = new THREE.PlaneGeometry(0.5,0.5);
@@ -97,6 +89,16 @@ function init(){
         tracksPlane.name = 'tracks';
         tracksPlane.position.set(1.4,-0.3,2);
         scene.add(tracksPlane)
+        
+
+    renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.outputEncoding = THREE.sRGBEncoding;
+        app.appendChild(renderer.domElement)
+
+    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 20 );
+        camera.position.set( 0, 1, 8 );
 
     controls = new OrbitControls( camera, renderer.domElement );
         controls.enableZoom = false;
@@ -104,10 +106,10 @@ function init(){
         controls.enablePan = false;
         controls.target.set( 0.5, 0, 0 );
         controls.maxDistance = 8;
+        controls.maxPolarAngle = THREE.MathUtils.degToRad( 90 );
         controls.update();
 
     window.addEventListener( 'resize', onWindowResize );
-
     renderer.domElement.addEventListener( 'pointermove', onPointerMove );
     renderer.domElement.addEventListener('click', onClick, false);
 
@@ -140,13 +142,17 @@ function onClick(e) {
             cameraMove(2.6090124846041998, -0.19104929753311628, 3.823187137442257, 1, 'power3.inOut', true)
             break;
         default:
-            getData('total');
-            cameraMove();
+            if (focus) {
+                getData('total');
+                cameraMove();
+            }            
             break;
     }
   } else {
-    getData('total');
-    cameraMove();
+    if (focus) {
+        getData('total');
+        cameraMove();
+    }
   }
 
 }
@@ -196,8 +202,8 @@ function animate() {
     tracksPlane.lookAt(camera.position)
     
     if (!focus) {
-        camera.position.x += ( mouseX - camera.position.x ) * 0.0005;
-        camera.position.y += ( - mouseY - camera.position.y ) * 0.0005;
+        camera.position.x += ( mouseX - camera.position.x ) * 0.00005;
+        camera.position.y += ( - mouseY - camera.position.y ) * 0.00005;
         camera.position.z = 8;
         camera.lookAt( scene.position );
     }
